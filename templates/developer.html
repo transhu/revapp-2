@@ -2,186 +2,352 @@
 
 {% block content %}
 <div class="developer-container">
-    <!-- Hero Section -->
-    <div class="hero-section">
-        <div class="hero-content">
-            <h1 class="gradient-text">About The Developer</h1>
-            <p class="hero-subtitle">Building Critique Spark with passion and purpose</p>
-        </div>
+    <!-- Header Section -->
+    <div class="dev-header">
+        <h1 class="gradient-text">Developer Documentation</h1>
+        <p class="header-subtitle">Complete guide to CritiqueSpark's features and architecture</p>
     </div>
 
-    <!-- Main Content -->
-    <div class="content-section">
-        <!-- Developer Info Card -->
-        <div class="info-card developer-card">
-            <div class="card-icon">
-                <i class="bi bi-person-workspace"></i>
+    <!-- Documentation Content -->
+    <div class="documentation">
+        <!-- About Section -->
+        <section class="doc-section">
+            <div class="section-header">
+                <i class="bi bi-info-circle"></i>
+                <h2>About CritiqueSpark</h2>
             </div>
-            <div class="card-content">
-                <h3>Meet the Developer</h3>
-                <p>Hi, I'm P. Shivani! I'm passionate about creating meaningful web applications that bring value to users.</p>
+            <div class="content-card">
+                <p>CritiqueSpark is a modern web platform designed for developers to share and discuss projects, receive feedback, and build a collaborative community. Built with Flask and modern web technologies, it offers a rich set of features for both users and developers.</p>
             </div>
-        </div>
+        </section>
 
-        <!-- Project Info Card -->
-        <div class="info-card project-card">
-            <div class="card-icon">
-                <i class="bi bi-lightbulb"></i>
+        <!-- Core Features Section -->
+        <section class="doc-section">
+            <div class="section-header">
+                <i class="bi bi-stars"></i>
+                <h2>Core Features</h2>
             </div>
-            <div class="card-content">
-                <h3>Project Purpose</h3>
-                <p>Critique Spark was developed as part of the Smart Engineering Project, aiming to create a platform for meaningful discussions and feedback.</p>
-                <div class="project-links">
-                    <a href="https://replit.com/@KPriyanshu/RoughStainedDesktopenvironment" target="_blank" class="btn btn-outline">
-                        <i class="bi bi-code-square"></i> View API Repository
-                    </a>
+            <div class="content-card">
+                <div class="feature-grid">
+                    <div class="feature-item">
+                        <i class="bi bi-person-check"></i>
+                        <h4>User Authentication</h4>
+                        <ul>
+                            <li>Secure login and registration</li>
+                            <li>Session management</li>
+                            <li>Password protection</li>
+                            <li>User profile management</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-item">
+                        <i class="bi bi-pencil-square"></i>
+                        <h4>Post Management</h4>
+                        <ul>
+                            <li>Create and edit posts</li>
+                            <li>Rich text formatting</li>
+                            <li>Project link sharing</li>
+                            <li>Post visibility controls</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-item">
+                        <i class="bi bi-chat-dots"></i>
+                        <h4>Interactive Comments</h4>
+                        <ul>
+                            <li>Threaded comments</li>
+                            <li>Reply functionality</li>
+                            <li>Like/Unlike comments</li>
+                            <li>Real-time updates</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-item">
+                        <i class="bi bi-arrow-up-circle"></i>
+                        <h4>Voting System</h4>
+                        <ul>
+                            <li>Upvote/Downvote posts</li>
+                            <li>Vote tracking</li>
+                            <li>User vote history</li>
+                            <li>Trending posts</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-item">
+                        <i class="bi bi-person-circle"></i>
+                        <h4>Profile System</h4>
+                        <ul>
+                            <li>Custom avatars</li>
+                            <li>Bio and contact info</li>
+                            <li>Activity tracking</li>
+                            <li>Profile customization</li>
+                        </ul>
+                    </div>
+
+                    <div class="feature-item">
+                        <i class="bi bi-chat-square-text"></i>
+                        <h4>Chat System</h4>
+                        <ul>
+                            <li>Real-time messaging</li>
+                            <li>User-to-user chat</li>
+                            <li>Message history</li>
+                            <li>Online status</li>
+                        </ul>
+                    </div>
                 </div>
             </div>
-        </div>
+        </section>
 
-        <!-- Contact Card -->
-        <div class="info-card contact-card">
-            <div class="card-icon">
-                <i class="bi bi-envelope-paper"></i>
+        <!-- Technical Stack -->
+        <section class="doc-section">
+            <div class="section-header">
+                <i class="bi bi-stack"></i>
+                <h2>Technical Stack</h2>
             </div>
-            <div class="card-content">
-                <h3>Get in Touch</h3>
-                <p>Have questions or suggestions? I'd love to hear from you!</p>
-                <a href="mailto:01chocolatygirl50@gmail.com" class="contact-link">
-                    <i class="bi bi-envelope"></i> 01chocolatygirl50@gmail.com
-                </a>
+            <div class="content-card">
+                <div class="tech-grid">
+                    <div class="tech-item">
+                        <i class="bi bi-filetype-py"></i>
+                        <div class="tech-info">
+                            <h4>Backend</h4>
+                            <ul>
+                                <li>Python 3.x</li>
+                                <li>Flask Framework</li>
+                                <li>JSON Data Storage</li>
+                                <li>Session Management</li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="tech-item">
+                        <i class="bi bi-window"></i>
+                        <div class="tech-info">
+                            <h4>Frontend</h4>
+                            <ul>
+                                <li>HTML5/CSS3</li>
+                                <li>JavaScript (ES6+)</li>
+                                <li>Bootstrap 5</li>
+                                <li>Custom Components</li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
             </div>
-        </div>
+        </section>
+
+        <!-- API Documentation -->
+        <section class="doc-section">
+            <div class="section-header">
+                <i class="bi bi-code-square"></i>
+                <h2>API Reference</h2>
+            </div>
+            <div class="content-card">
+                <div class="api-endpoints">
+                    <h4>Authentication</h4>
+                    <pre class="code-block">
+POST /login
+POST /signup
+POST /logout</pre>
+
+                    <h4>Posts</h4>
+                    <pre class="code-block">
+GET /posts
+POST /create_post
+GET /post/{post_id}
+POST /upvote/{post_id}
+POST /downvote/{post_id}</pre>
+
+                    <h4>Comments</h4>
+                    <pre class="code-block">
+POST /comment/{post_id}
+POST /comment/{post_id}/{comment_id}/reply
+POST /comment/{post_id}/{comment_id}/like</pre>
+
+                    <h4>User Profile</h4>
+                    <pre class="code-block">
+GET /mypage
+POST /save-profile
+GET /settings
+POST /save_settings</pre>
+
+                    <h4>Chat System</h4>
+                    <pre class="code-block">
+GET /chat
+GET /chat/messages/{user}
+POST /chat/send/{user}</pre>
+                </div>
+            </div>
+        </section>
+
+        <!-- Developer Info -->
+        <section class="doc-section">
+            <div class="section-header">
+                <i class="bi bi-person-workspace"></i>
+                <h2>Developer Information</h2>
+            </div>
+            <div class="content-card">
+                <div class="developer-info">
+                    <h4>Project Developer</h4>
+                    <p>P. Shivani</p>
+                    <h4>Contact</h4>
+                    <p><a href="mailto:01chocolatygirl50@gmail.com">01chocolatygirl50@gmail.com</a></p>
+                    <h4>Project Repository</h4>
+                    <p><a href="https://replit.com/@KPriyanshu/RoughStainedDesktopenvironment" target="_blank">View on Replit</a></p>
+                </div>
+            </div>
+        </section>
     </div>
 </div>
 
 <style>
     .developer-container {
         margin: -2rem;
-        overflow: hidden;
+        padding: 2rem;
     }
 
-    .hero-section {
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        padding: 4rem 2rem;
+    .dev-header {
         text-align: center;
+        padding: 3rem 2rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 16px;
         color: white;
-        margin-bottom: 3rem;
+        margin-bottom: 2rem;
     }
 
     .gradient-text {
-        background: linear-gradient(45deg, #fff, #f0f0f0);
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(45deg, #fff, rgba(255, 255, 255, 0.8));
         -webkit-background-clip: text;
         background-clip: text;
         color: transparent;
-        font-size: 3rem;
-        font-weight: 700;
         margin-bottom: 1rem;
     }
 
-    .hero-subtitle {
-        font-size: 1.2rem;
-        opacity: 0.9;
-    }
-
-    .content-section {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 2rem;
+    .documentation {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
         gap: 2rem;
-        margin-bottom: 3rem;
     }
 
-    .info-card {
+    .doc-section {
         background: white;
         border-radius: 16px;
         padding: 2rem;
-        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
     }
 
-    .info-card:hover {
-        transform: translateY(-5px);
-        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-    }
-
-    .card-icon {
-        width: 60px;
-        height: 60px;
-        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
-        border-radius: 12px;
+    .section-header {
         display: flex;
         align-items: center;
-        justify-content: center;
+        gap: 1rem;
         margin-bottom: 1.5rem;
     }
 
-    .card-icon i {
-        font-size: 1.8rem;
-        color: white;
+    .section-header i {
+        font-size: 1.5rem;
+        color: var(--primary-color);
     }
 
-    .card-content h3 {
+    .content-card {
+        background: #F9FAFB;
+        border-radius: 12px;
+        padding: 1.5rem;
+    }
+
+    .feature-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .feature-item {
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .feature-item i {
         font-size: 1.5rem;
-        font-weight: 600;
+        color: var(--primary-color);
+        margin-bottom: 1rem;
+    }
+
+    .feature-item h4 {
         margin-bottom: 1rem;
         color: var(--text-color);
     }
 
-    .card-content p {
+    .feature-item ul {
+        padding-left: 1.2rem;
         color: #6B7280;
-        line-height: 1.6;
-        margin-bottom: 1.5rem;
     }
 
-    .project-links {
+    .tech-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .tech-item {
         display: flex;
+        align-items: flex-start;
         gap: 1rem;
-        margin-top: 1rem;
+        background: white;
+        padding: 1.5rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
     }
 
-    .btn-outline {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
-        padding: 0.75rem 1.5rem;
-        border: 2px solid var(--primary-color);
+    .tech-item i {
+        font-size: 2rem;
         color: var(--primary-color);
-        border-radius: 9999px;
-        font-weight: 500;
-        transition: all 0.2s ease;
     }
 
-    .btn-outline:hover {
-        background: var(--primary-color);
-        color: white;
-        transform: translateY(-2px);
+    .code-block {
+        background: #1F2937;
+        color: #E5E7EB;
+        padding: 1rem;
+        border-radius: 8px;
+        overflow-x: auto;
+        margin: 1rem 0;
+        font-family: monospace;
     }
 
-    .contact-link {
-        display: inline-flex;
-        align-items: center;
-        gap: 0.5rem;
+    .api-endpoints h4 {
+        margin: 1.5rem 0 0.5rem 0;
+        color: var(--text-color);
+    }
+
+    .developer-info {
+        display: grid;
+        gap: 1rem;
+    }
+
+    .developer-info h4 {
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .developer-info a {
         color: var(--primary-color);
         text-decoration: none;
-        font-weight: 500;
-        transition: color 0.2s ease;
     }
 
-    .contact-link:hover {
-        color: var(--secondary-color);
+    .developer-info a:hover {
+        text-decoration: underline;
     }
 
     @media (max-width: 768px) {
-        .gradient-text {
-            font-size: 2.5rem;
+        .developer-container {
+            padding: 1rem;
         }
 
-        .content-section {
+        .gradient-text {
+            font-size: 2rem;
+        }
+
+        .feature-grid, .tech-grid {
             grid-template-columns: 1fr;
-            padding: 0 1rem;
         }
     }
 </style>

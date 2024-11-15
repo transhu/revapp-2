@@ -100,7 +100,7 @@ def login():
 
             flash('Login successful!', 'success')
 
-            return redirect(url_for('homepage'))
+            return redirect(url_for('index'))
 
         else:
 
@@ -723,7 +723,7 @@ def logout():
 
         return redirect(url_for('login'))
 
-    return redirect(url_for('home'))  # Optional: Add a fallback for GET requests.
+    return redirect(url_for('index'))
 
 
 
@@ -1958,6 +1958,13 @@ def save_profile():
     flash('Profile updated successfully!', 'success')
 
     return redirect(url_for('my_page'))
+
+
+
+# Add this route for the developer page
+@app.route('/developer')
+def developer():
+    return render_template('developer.html')
 
 
 
