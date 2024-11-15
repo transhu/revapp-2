@@ -1,0 +1,10 @@
+{
+    "user@example.com": {
+        "username": "user1",
+        "password": "password123"
+    },
+    "kpg@duck.com": {
+        "username": "sony",
+        "password": "12345678"
+    }
+}

@@ -1,0 +1,12 @@
+{
+    "sony": {
+        "fontSize": "small",
+        "emailNotifications": true,
+        "commentNotifications": true,
+        "profileVisibility": "public",
+        "activityStatus": true,
+        "language": "en",
+        "timezone": "UTC",
+        "theme": "light"
+    }
+}

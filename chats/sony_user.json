@@ -1,0 +1,22 @@
+{
+    "participants": [
+        "sony",
+        "user"
+    ],
+    "messages": [
+        {
+            "id": "5f439454-3917-48f6-93b3-39565458844d",
+            "sender": "sony",
+            "text": "haii",
+            "timestamp": "2024-11-15T05:33:36.294630+00:00",
+            "read": false
+        },
+        {
+            "id": "203eaa50-c406-4b12-b9de-78c6496453a4",
+            "sender": "sony",
+            "text": "ssup",
+            "timestamp": "2024-11-15T05:33:39.154968+00:00",
+            "read": false
+        }
+    ]
+}

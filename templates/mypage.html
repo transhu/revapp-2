@@ -1,0 +1,239 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="mypage-container">
+    <!-- Profile Section -->
+    <div class="profile-section">
+        <div class="profile-header">
+            <div class="profile-avatar">
+                {% if user_profile.profile_pic %}
+                    <img src="{{ url_for('static', filename='profile_pics/' + user_profile.profile_pic) }}" 
+                         alt="Profile Picture"
+                         class="profile-image">
+                {% else %}
+                    {{ session['user'][0].upper() }}
+                {% endif %}
+            </div>
+            <div class="profile-info">
+                <h1 class="profile-name">{{ session['user'] }}</h1>
+                <p class="profile-bio">{{ user_profile.bio if user_profile.bio else "No bio yet" }}</p>
+                <div class="profile-stats">
+                    <div class="stat">
+                        <span class="stat-value">{{ posts|length }}</span>
+                        <span class="stat-label">Posts</span>
+                    </div>
+                    <div class="stat">
+                        <span class="stat-value">{{ total_upvotes }}</span>
+                        <span class="stat-label">Total Upvotes</span>
+                    </div>
+                </div>
+            </div>
+            <a href="{{ url_for('edit_profile') }}" class="btn btn-edit-profile">
+                <i class="bi bi-pencil-square"></i>
+                Edit Profile
+            </a>
+        </div>
+    </div>
+
+    <!-- Posts Section -->
+    <div class="posts-section">
+        <div class="section-header">
+            <h2>My Posts</h2>
+            <a href="{{ url_for('create_post') }}" class="btn btn-create">
+                <i class="bi bi-plus-lg"></i>
+                Create New Post
+            </a>
+        </div>
+
+        <!-- Posts Grid -->
+        <div class="posts-grid">
+            {% if posts %}
+                {% for post in posts %}
+                <div class="post-card">
+                    <div class="post-header">
+                        <div class="post-meta">
+                            <h3 class="post-title">{{ post.title }}</h3>
+                            <div class="post-stats">
+                                <span class="stat upvotes">
+                                    <i class="bi bi-arrow-up-circle-fill"></i>
+                                    {{ post.upvotes }}
+                                </span>
+                                <span class="stat downvotes">
+                                    <i class="bi bi-arrow-down-circle-fill"></i>
+                                    {{ post.downvotes }}
+                                </span>
+                            </div>
+                        </div>
+                        <div class="post-actions">
+                            <a href="{{ url_for('post_detail', post_id=post.id) }}" class="btn btn-icon" title="View Post">
+                                <i class="bi bi-eye"></i>
+                            </a>
+                            <button class="btn btn-icon" title="Share Post">
+                                <i class="bi bi-share"></i>
+                            </button>
+                            <button class="btn btn-icon btn-edit" title="Edit Post">
+                                <i class="bi bi-pencil"></i>
+                            </button>
+                        </div>
+                    </div>
+                    <p class="post-description">{{ post.description }}</p>
+                    <div class="post-footer">
+                        <span class="post-date">
+                            <i class="bi bi-calendar3"></i>
+                            {{ post.timestamp | default('No date') }}
+                        </span>
+                        <a href="{{ post.link }}" target="_blank" class="post-link">
+                            <i class="bi bi-link-45deg"></i>
+                            View Project
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            {% else %}
+                <div class="empty-state">
+                    <i class="bi bi-journal-text"></i>
+                    <h3>No Posts Yet</h3>
+                    <p>Share your first project with the community!</p>
+                    <a href="{{ url_for('create_post') }}" class="btn btn-create">
+                        <i class="bi bi-plus-lg"></i>
+                        Create Your First Post
+                    </a>
+                </div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .mypage-container {
+        margin: -2rem;
+        padding: 2rem;
+    }
+
+    /* Profile Section Styles */
+    .profile-section {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .profile-header {
+        display: flex;
+        align-items: center;
+        gap: 2rem;
+    }
+
+    .profile-avatar {
+        width: 120px;
+        height: 120px;
+        border-radius: 50%;
+        overflow: hidden;
+    }
+
+    .profile-image {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
+
+    .profile-info {
+        flex: 1;
+    }
+
+    .profile-name {
+        font-size: 2rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        color: var(--text-color);
+    }
+
+    .profile-bio {
+        color: #6B7280;
+        margin-bottom: 1rem;
+        font-size: 1.1rem;
+        line-height: 1.5;
+    }
+
+    .profile-stats {
+        display: flex;
+        gap: 2rem;
+    }
+
+    .stat {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    .stat-value {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--primary-color);
+    }
+
+    .stat-label {
+        color: #6B7280;
+        font-size: 0.875rem;
+    }
+
+    .btn-edit-profile {
+        padding: 0.75rem 1.5rem;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s ease;
+        text-decoration: none;
+    }
+
+    .btn-edit-profile:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        color: white;
+    }
+
+    /* Posts Section Styles */
+    .posts-section {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2rem;
+    }
+
+    .section-header h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        color: var(--text-color);
+    }
+
+    /* Keep existing post-card and other styles... */
+
+    @media (max-width: 768px) {
+        .profile-header {
+            flex-direction: column;
+            text-align: center;
+        }
+
+        .profile-stats {
+            justify-content: center;
+        }
+
+        .btn-edit-profile {
+            margin-top: 1rem;
+        }
+    }
+</style>
+{% endblock %}
+
+{% block footer %}{% endblock %}

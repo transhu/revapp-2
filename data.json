@@ -1,0 +1,183 @@
+{
+    "posts": [
+        {
+            "id": 1,
+            "title": "First Post",
+            "description": "This is the first post",
+            "link": "https://github.com/user/project1",
+            "upvotes": 21,
+            "downvotes": 16,
+            "comments": [
+                {
+                    "id": "legacy-comment-1",
+                    "username": "user1",
+                    "text": "Great post!",
+                    "timestamp": "2024-01-01T00:00:00+00:00",
+                    "likes": 0,
+                    "liked_by": [],
+                    "replies": []
+                },
+                {
+                    "id": "legacy-comment-2",
+                    "username": "user2",
+                    "text": "Very informative, thanks!",
+                    "timestamp": "2024-01-01T00:00:00+00:00",
+                    "likes": 0,
+                    "liked_by": [],
+                    "replies": []
+                },
+                {
+                    "username": "user3",
+                    "text": "ssup",
+                    "replies": []
+                },
+                {
+                    "id": 4,
+                    "text": "hey ",
+                    "username": "sony",
+                    "timestamp": "2024-11-14T20:00:06.544917",
+                    "likes": 0,
+                    "replies": [
+                        {
+                            "id": "27e7a587-ffa1-472f-8dd8-a51ae75cdd49",
+                            "username": "sony",
+                            "text": "hmm",
+                            "timestamp": "2024-11-15T06:09:10.041644+00:00",
+                            "likes": 0,
+                            "liked_by": []
+                        }
+                    ],
+                    "liked_by": []
+                },
+                {
+                    "id": "01e2e9a3-1196-4abf-83af-65e42d8a894f",
+                    "username": "sony",
+                    "text": "hey",
+                    "timestamp": "2024-11-15T06:04:52.943975+00:00",
+                    "likes": 0,
+                    "liked_by": [],
+                    "replies": []
+                }
+            ],
+            "author": "current_user"
+        },
+        {
+            "id": 2,
+            "title": "Exploring Python",
+            "description": "A comprehensive guide to Python programming.",
+            "link": "https://github.com/user/project2",
+            "upvotes": 26,
+            "downvotes": 6,
+            "comments": [
+                {
+                    "username": "user4",
+                    "text": "This helped me a lot, thanks!",
+                    "replies": []
+                },
+                {
+                    "username": "user5",
+                    "text": "Can you explain more about data structures?",
+                    "replies": []
+                }
+            ],
+            "author": "user123"
+        },
+        {
+            "id": 3,
+            "title": "JavaScript Tips and Tricks",
+            "description": "Improve your JavaScript skills with these tips.",
+            "link": "https://github.com/user/project3",
+            "upvotes": 45,
+            "downvotes": 13,
+            "comments": [
+                {
+                    "username": "user6",
+                    "text": "Awesome tips, very useful!",
+                    "replies": []
+                },
+                {
+                    "username": "user7",
+                    "text": "I never knew about these tricks, thanks for sharing!",
+                    "replies": []
+                },
+                {
+                    "username": "user8",
+                    "text": "hey",
+                    "replies": []
+                }
+            ],
+            "author": "codeMaster"
+        },
+        {
+            "id": 4,
+            "title": "Machine Learning Basics",
+            "description": "An introduction to machine learning concepts.",
+            "link": "https://github.com/user/project4",
+            "upvotes": 30,
+            "downvotes": 1,
+            "comments": [
+                {
+                    "username": "user9",
+                    "text": "Very helpful for beginners!",
+                    "replies": []
+                },
+                {
+                    "username": "user10",
+                    "text": "Looking forward to more advanced topics.",
+                    "replies": []
+                }
+            ],
+            "author": "mlGuru"
+        },
+        {
+            "id": 5,
+            "title": "CSS Flexbox Guide",
+            "description": "Master CSS Flexbox with this comprehensive guide.",
+            "link": "https://github.com/user/project5",
+            "upvotes": 15,
+            "downvotes": 0,
+            "comments": [
+                {
+                    "username": "user11",
+                    "text": "This guide is a lifesaver!",
+                    "replies": []
+                },
+                {
+                    "username": "user12",
+                    "text": "Flexbox made easy, thanks!",
+                    "replies": []
+                }
+            ],
+            "author": "webDevPro"
+        },
+        {
+            "id": 6,
+            "title": "wsg",
+            "description": "hehhhahahahha",
+            "link": "https://www.google.com/search?q=how+to+add+a+docker+file+to+your+folder&oq=how+to+add+a+docker+file+to+your+folder&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQLhhA0gEINzAzMmowajGoAgCwAgA&sourceid=chrome&ie=UTF-8",
+            "upvotes": 2,
+            "downvotes": 0,
+            "comments": [
+                {
+                    "text": "hey ",
+                    "replies": []
+                },
+                {
+                    "text": "nega",
+                    "replies": []
+                }
+            ],
+            "author": "user1"
+        },
+        {
+            "id": 7,
+            "title": "wsg",
+            "description": "hehhhahahahha",
+            "link": "https://www.google.com/search?q=how+to+add+a+docker+file+to+your+folder&oq=how+to+add+a+docker+file+to+your+folder&gs_lcrp=EgZjaHJvbWUyBggAEEUYOTIGCAEQLhhA0gEINzAzMmowajGoAgCwAgA&sourceid=chrome&ie=UTF-8",
+            "upvotes": 0,
+            "downvotes": 0,
+            "comments": [],
+            "author": "user1"
+        }
+    ]
+}

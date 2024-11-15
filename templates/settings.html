@@ -1,0 +1,519 @@
+<!-- settings.html -->
+{% extends "base.html" %}
+
+{% block content %}
+<div class="settings-container">
+    <!-- Header Section -->
+    <div class="settings-header">
+        <h1 class="gradient-text">Settings</h1>
+        <p class="header-subtitle">Customize your CritiqueSpark experience</p>
+    </div>
+
+    <!-- Settings Form -->
+    <div class="settings-form">
+        <!-- Display Settings -->
+        <div class="settings-section">
+            <div class="section-header">
+                <i class="bi bi-display"></i>
+                <h2>Display</h2>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <label>Font Size</label>
+                    <p class="setting-description">Adjust the text size across the platform</p>
+                </div>
+                <select id="fontSize" class="setting-control">
+                    <option value="small" {% if settings.fontSize == 'small' %}selected{% endif %}>Small</option>
+                    <option value="medium" {% if settings.fontSize == 'medium' %}selected{% endif %}>Medium</option>
+                    <option value="large" {% if settings.fontSize == 'large' %}selected{% endif %}>Large</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <label>Theme</label>
+                    <p class="setting-description">Choose your preferred theme</p>
+                </div>
+                <div class="theme-selector">
+                    <button class="theme-option {% if settings.theme == 'light' %}active{% endif %}" data-theme="light">
+                        <i class="bi bi-sun"></i>
+                        Light
+                    </button>
+                    <button class="theme-option {% if settings.theme == 'dark' %}active{% endif %}" data-theme="dark">
+                        <i class="bi bi-moon"></i>
+                        Dark
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Notification Settings -->
+        <div class="settings-section">
+            <div class="section-header">
+                <i class="bi bi-bell"></i>
+                <h2>Notifications</h2>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <label>Email Notifications</label>
+                    <p class="setting-description">Receive updates and alerts via email</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="emailNotifications" {% if settings.emailNotifications %}checked{% endif %}>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <label>Comment Notifications</label>
+                    <p class="setting-description">Get notified about new comments on your posts</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="commentNotifications" {% if settings.commentNotifications %}checked{% endif %}>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Privacy Settings -->
+        <div class="settings-section">
+            <div class="section-header">
+                <i class="bi bi-shield-lock"></i>
+                <h2>Privacy</h2>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <label>Profile Visibility</label>
+                    <p class="setting-description">Control who can see your profile</p>
+                </div>
+                <select id="profileVisibility" class="setting-control">
+                    <option value="public" {% if settings.profileVisibility == 'public' %}selected{% endif %}>Public</option>
+                    <option value="friends" {% if settings.profileVisibility == 'friends' %}selected{% endif %}>Friends Only</option>
+                    <option value="private" {% if settings.profileVisibility == 'private' %}selected{% endif %}>Private</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <label>Activity Status</label>
+                    <p class="setting-description">Show when you're online</p>
+                </div>
+                <label class="toggle-switch">
+                    <input type="checkbox" id="activityStatus" {% if settings.activityStatus %}checked{% endif %}>
+                    <span class="toggle-slider"></span>
+                </label>
+            </div>
+        </div>
+
+        <!-- Regional Settings -->
+        <div class="settings-section">
+            <div class="section-header">
+                <i class="bi bi-globe"></i>
+                <h2>Regional</h2>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <label>Language</label>
+                    <p class="setting-description">Choose your preferred language</p>
+                </div>
+                <select id="language" class="setting-control">
+                    <option value="en" {% if settings.language == 'en' %}selected{% endif %}>English</option>
+                    <option value="es" {% if settings.language == 'es' %}selected{% endif %}>Español</option>
+                    <option value="fr" {% if settings.language == 'fr' %}selected{% endif %}>Français</option>
+                </select>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <label>Time Zone</label>
+                    <p class="setting-description">Set your local time zone</p>
+                </div>
+                <select id="timezone" class="setting-control">
+                    {% for tz in timezones %}
+                    <option value="{{ tz }}" {% if settings.timezone == tz %}selected{% endif %}>{{ tz }}</option>
+                    {% endfor %}
+                </select>
+            </div>
+        </div>
+
+        <!-- Account Actions -->
+        <div class="settings-section danger-zone">
+            <div class="section-header">
+                <i class="bi bi-exclamation-triangle"></i>
+                <h2>Account Actions</h2>
+            </div>
+            <div class="setting-item">
+                <div class="setting-info">
+                    <label>Delete Account</label>
+                    <p class="setting-description warning-text">This action cannot be undone</p>
+                </div>
+                <button id="deleteAccount" class="btn btn-danger">
+                    <i class="bi bi-trash"></i>
+                    Delete Account
+                </button>
+            </div>
+        </div>
+
+        <!-- Save Button -->
+        <div class="settings-actions">
+            <button id="saveSettings" class="btn btn-primary">
+                <i class="bi bi-save"></i>
+                Save Changes
+            </button>
+        </div>
+    </div>
+</div>
+
+<style>
+    .settings-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .settings-header {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding: 2rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 16px;
+        color: white;
+    }
+
+    .gradient-text {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 0.5rem;
+        background: linear-gradient(45deg, #fff, rgba(255, 255, 255, 0.8));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .header-subtitle {
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+
+    .settings-form {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .settings-section {
+        margin-bottom: 2.5rem;
+        padding-bottom: 2rem;
+        border-bottom: 1px solid #E5E7EB;
+    }
+
+    .settings-section:last-child {
+        border-bottom: none;
+        margin-bottom: 0;
+        padding-bottom: 0;
+    }
+
+    .section-header {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+        margin-bottom: 1.5rem;
+    }
+
+    .section-header i {
+        font-size: 1.5rem;
+        color: var(--primary-color);
+    }
+
+    .section-header h2 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin: 0;
+        color: var(--text-color);
+    }
+
+    .setting-item {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1.5rem;
+        padding: 1rem;
+        background: #F9FAFB;
+        border-radius: 12px;
+        transition: all 0.2s;
+    }
+
+    .setting-item:hover {
+        background: #F3F4F6;
+        transform: translateX(5px);
+    }
+
+    .setting-info {
+        flex: 1;
+        margin-right: 2rem;
+    }
+
+    .setting-info label {
+        display: block;
+        font-weight: 600;
+        color: var(--text-color);
+        margin-bottom: 0.25rem;
+    }
+
+    .setting-description {
+        font-size: 0.875rem;
+        color: #6B7280;
+        margin: 0;
+    }
+
+    .setting-control {
+        min-width: 150px;
+        padding: 0.5rem;
+        border: 1px solid #E5E7EB;
+        border-radius: 8px;
+        background: white;
+    }
+
+    .theme-selector {
+        display: flex;
+        gap: 0.5rem;
+    }
+
+    .theme-option {
+        padding: 0.5rem 1rem;
+        border: 1px solid #E5E7EB;
+        border-radius: 8px;
+        background: white;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        cursor: pointer;
+        transition: all 0.2s;
+    }
+
+    .theme-option.active {
+        background: var(--primary-color);
+        color: white;
+        border-color: var(--primary-color);
+    }
+
+    .toggle-switch {
+        position: relative;
+        display: inline-block;
+        width: 50px;
+        height: 24px;
+    }
+
+    .toggle-switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+    }
+
+    .toggle-slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #E5E7EB;
+        transition: .4s;
+        border-radius: 34px;
+    }
+
+    .toggle-slider:before {
+        position: absolute;
+        content: "";
+        height: 20px;
+        width: 20px;
+        left: 2px;
+        bottom: 2px;
+        background-color: white;
+        transition: .4s;
+        border-radius: 50%;
+    }
+
+    input:checked + .toggle-slider {
+        background-color: var(--primary-color);
+    }
+
+    input:checked + .toggle-slider:before {
+        transform: translateX(26px);
+    }
+
+    .danger-zone {
+        background: #FEF2F2;
+        border-radius: 12px;
+        padding: 1.5rem;
+        margin-top: 3rem;
+    }
+
+    .danger-zone .section-header i {
+        color: #EF4444;
+    }
+
+    .warning-text {
+        color: #EF4444;
+    }
+
+    .btn-danger {
+        background: #EF4444;
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 8px;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        transition: all 0.2s;
+    }
+
+    .btn-danger:hover {
+        background: #DC2626;
+        transform: translateY(-1px);
+    }
+
+    .settings-actions {
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 2rem;
+        padding-top: 2rem;
+        border-top: 1px solid #E5E7EB;
+    }
+
+    .btn-primary {
+        background: var(--primary-color);
+        color: white;
+        padding: 0.75rem 2rem;
+        border-radius: 8px;
+        border: none;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        font-weight: 500;
+        transition: all 0.2s;
+    }
+
+    .btn-primary:hover {
+        background: var(--secondary-color);
+        transform: translateY(-2px);
+    }
+
+    @media (max-width: 768px) {
+        .settings-container {
+            padding: 1rem;
+        }
+
+        .setting-item {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 1rem;
+        }
+
+        .setting-info {
+            margin-right: 0;
+        }
+
+        .setting-control {
+            width: 100%;
+        }
+
+        .theme-selector {
+            width: 100%;
+        }
+
+        .theme-option {
+            flex: 1;
+            justify-content: center;
+        }
+    }
+</style>
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Save Settings
+    document.getElementById('saveSettings').addEventListener('click', function() {
+        const settings = {
+            fontSize: document.getElementById('fontSize').value,
+            emailNotifications: document.getElementById('emailNotifications').checked,
+            commentNotifications: document.getElementById('commentNotifications').checked,
+            profileVisibility: document.getElementById('profileVisibility').value,
+            activityStatus: document.getElementById('activityStatus').checked,
+            language: document.getElementById('language').value,
+            timezone: document.getElementById('timezone').value,
+            theme: document.querySelector('.theme-option.active').dataset.theme
+        };
+
+        fetch('/save_settings', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(settings)
+        })
+        .then(response => response.json())
+        .then(data => {
+            if (data.message) {
+                showNotification('Settings saved successfully', 'success');
+                // Apply theme immediately
+                document.documentElement.setAttribute('data-theme', settings.theme);
+            } else {
+                showNotification('Error saving settings', 'error');
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+            showNotification('Error saving settings', 'error');
+        });
+    });
+
+    // Theme Selector
+    document.querySelectorAll('.theme-option').forEach(button => {
+        button.addEventListener('click', function() {
+            document.querySelectorAll('.theme-option').forEach(btn => btn.classList.remove('active'));
+            this.classList.add('active');
+        });
+    });
+
+    // Delete Account
+    document.getElementById('deleteAccount').addEventListener('click', function() {
+        if (confirm('Are you sure you want to delete your account? This action cannot be undone.')) {
+            fetch('/delete_account', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.message) {
+                    showNotification('Account deleted successfully', 'success');
+                    setTimeout(() => {
+                        window.location.href = '/';
+                    }, 2000);
+                } else {
+                    showNotification('Error deleting account', 'error');
+                }
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                showNotification('Error deleting account', 'error');
+            });
+        }
+    });
+
+    // Notification function
+    function showNotification(message, type) {
+        const notification = document.createElement('div');
+        notification.className = `notification ${type}`;
+        notification.textContent = message;
+        document.body.appendChild(notification);
+
+        setTimeout(() => {
+            notification.remove();
+        }, 3000);
+    }
+});
+</script>
+
+{% endblock %}
+{% block footer %}{% endblock %}

@@ -1,0 +1,22 @@
+{
+    "participants": [
+        "sony",
+        "user1"
+    ],
+    "messages": [
+        {
+            "id": "test-message-1",
+            "sender": "sony",
+            "text": "Hello user1!",
+            "timestamp": "2024-01-15T12:00:00+00:00",
+            "read": true
+        },
+        {
+            "id": "test-message-2",
+            "sender": "user1",
+            "text": "Hi sony!",
+            "timestamp": "2024-01-15T12:01:00+00:00",
+            "read": true
+        }
+    ]
+}

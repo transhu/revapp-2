@@ -1,0 +1,78 @@
+/* styles.css */
+
+/* Default light mode styles */
+body {
+    background-color: white;
+    color: black;
+    transition: all 0.3s ease;
+}
+
+.navbar-light {
+    background-color: #f8f9fa !important;
+}
+
+.navbar-light .navbar-nav .nav-link {
+    color: black;
+}
+
+.list-group-item {
+    background-color: #fff;
+}
+
+/* Dark Mode Styles */
+body.dark-mode {
+    background-color: #121212;
+    color: #e0e0e0;
+}
+
+body.dark-mode .navbar-light {
+    background-color: #333 !important;
+}
+
+body.dark-mode .navbar-light .navbar-nav .nav-link {
+    color: #e0e0e0;
+}
+
+body.dark-mode .list-group-item {
+    background-color: #333;
+    color: #e0e0e0;
+}
+
+body.dark-mode .list-group-item:hover {
+    background-color: #444;
+}
+
+body.dark-mode .form-control {
+    background-color: #444;
+    color: #e0e0e0;
+}
+
+body.dark-mode .btn {
+    background-color: #444;
+    color: #fff;
+}
+
+#messages {
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-radius: 10px;
+}
+
+.message {
+    margin-bottom: 15px;
+    padding: 8px;
+    background-color: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+}
+
+.message strong {
+    color: #007bff;
+}
+
+#messageInput {
+    width: 100%;
+    padding: 10px;
+    border-radius: 25px;
+    border: 1px solid #ccc;
+}

@@ -1,0 +1,706 @@
+{% extends "base.html" %}
+{% block content %}
+<div class="post-detail-container">
+    <!-- Post Header -->
+    <div class="post-header">
+        <div class="post-meta">
+            <h1 class="post-title">{{ post.title }}</h1>
+            <div class="author-info">
+                <div class="author-avatar">{{ post.author[:1].upper() }}</div>
+                <span class="author-name">{{ post.author }}</span>
+            </div>
+        </div>
+        <a href="{{ post.link }}" target="_blank" class="project-link">
+            <i class="bi bi-box-arrow-up-right"></i>
+            View Project
+        </a>
+    </div>
+
+    <!-- Post Content -->
+    <div class="post-content">
+        <p class="post-description">{{ post.description }}</p>
+        
+        <!-- Voting Section -->
+        <div class="vote-section">
+            <button id="upvote-btn" class="vote-button" data-vote="up">
+                <i class="bi bi-arrow-up-circle-fill"></i>
+                <span class="vote-count upvotes">{{ post.upvotes }}</span>
+            </button>
+            <button id="downvote-btn" class="vote-button" data-vote="down">
+                <i class="bi bi-arrow-down-circle-fill"></i>
+                <span class="vote-count downvotes">{{ post.downvotes }}</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- Comments Section -->
+    <div class="comments-section">
+        <h2 class="section-title">
+            <i class="bi bi-chat-square-text"></i>
+            Comments
+        </h2>
+        
+        <!-- Comment Form -->
+        <form id="commentForm" class="comment-form">
+            <div class="input-wrapper">
+                <input type="text" id="commentInput" placeholder="Add your thoughts..." required>
+                <button type="submit" class="btn-submit">
+                    <i class="bi bi-send-fill"></i>
+                </button>
+            </div>
+        </form>
+
+        <!-- Comments List -->
+        <div class="comments-list">
+            {% for comment in post.comments %}
+            <div class="comment" data-comment-id="{{ comment.id }}">
+                <div class="comment-avatar">
+                    {% if user_profile and user_profile.profile_pic %}
+                        <img src="{{ url_for('static', filename='profile_pics/' + user_profile.profile_pic) }}" 
+                             alt="{{ comment.username }}'s avatar"
+                             class="avatar-image">
+                    {% else %}
+                        <div class="avatar-circle">{{ comment.username[:1].upper() }}</div>
+                    {% endif %}
+                </div>
+                <div class="comment-content">
+                    <div class="comment-header">
+                        <span class="comment-author">{{ comment.username }}</span>
+                        <span class="comment-time" data-timestamp="{{ comment.timestamp }}">
+                            <!-- Initial timestamp will be replaced by JavaScript -->
+                        </span>
+                    </div>
+                    <p class="comment-text">{{ comment.text }}</p>
+                    <div class="comment-actions">
+                        <button class="btn-action reply-btn">
+                            <i class="bi bi-reply"></i>
+                            Reply
+                        </button>
+                        <button class="btn-action like-btn {% if current_user in comment.liked_by %}active{% endif %}" 
+                                data-post-id="{{ post.id }}" 
+                                data-comment-id="{{ comment.id }}"
+                                data-type="comment">
+                            <i class="bi bi-heart{% if current_user in comment.liked_by %}-fill{% endif %}"></i>
+                            <span class="like-count">{{ comment.likes }}</span>
+                        </button>
+                    </div>
+
+                    <!-- Reply Form (Hidden by default) -->
+                    <form class="reply-form" style="display: none;">
+                        <div class="input-wrapper">
+                            <input type="text" class="reply-input" placeholder="Write a reply..." required>
+                            <button type="submit" class="btn-submit">
+                                <i class="bi bi-send-fill"></i>
+                            </button>
+                        </div>
+                    </form>
+
+                    <!-- Replies -->
+                    <div class="replies-list">
+                        {% for reply in comment.replies %}
+                        <div class="reply" data-reply-id="{{ reply.id }}">
+                            <div class="reply-avatar">
+                                {% if user_profile and user_profile.profile_pic %}
+                                    <img src="{{ url_for('static', filename='profile_pics/' + user_profile.profile_pic) }}" 
+                                         alt="{{ reply.username }}'s avatar"
+                                         class="avatar-image small">
+                                {% else %}
+                                    <div class="avatar-circle small">{{ reply.username[:1].upper() }}</div>
+                                {% endif %}
+                            </div>
+                            <div class="reply-content">
+                                <div class="reply-header">
+                                    <span class="reply-author">{{ reply.username }}</span>
+                                    <span class="reply-time" data-timestamp="{{ reply.timestamp }}">
+                                        <!-- Initial timestamp will be replaced by JavaScript -->
+                                    </span>
+                                </div>
+                                <p class="reply-text">{{ reply.text }}</p>
+                                <button class="btn-action like-btn {% if current_user in reply.liked_by %}active{% endif %}"
+                                        data-post-id="{{ post.id }}"
+                                        data-comment-id="{{ comment.id }}"
+                                        data-reply-id="{{ reply.id }}"
+                                        data-type="reply">
+                                    <i class="bi bi-heart{% if current_user in reply.liked_by %}-fill{% endif %}"></i>
+                                    <span class="like-count">{{ reply.likes }}</span>
+                                </button>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+
+<style>
+    .post-detail-container {
+        margin: -2rem;
+        padding: 2rem;
+    }
+
+    .post-header {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        padding: 2.5rem;
+        border-radius: 16px;
+        color: white;
+        margin-bottom: 2rem;
+        display: flex;
+        justify-content: space-between;
+        align-items: flex-start;
+    }
+
+    .post-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1.5rem;
+        line-height: 1.2;
+    }
+
+    .author-info {
+        display: flex;
+        align-items: center;
+        gap: 1rem;
+    }
+
+    .author-avatar {
+        width: 48px;
+        height: 48px;
+        background: rgba(255, 255, 255, 0.2);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    .author-name {
+        font-size: 1.1rem;
+        opacity: 0.9;
+    }
+
+    .project-link {
+        background: rgba(255, 255, 255, 0.1);
+        color: white;
+        padding: 0.75rem 1.5rem;
+        border-radius: 9999px;
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        text-decoration: none;
+        transition: all 0.2s ease;
+    }
+
+    .project-link:hover {
+        background: rgba(255, 255, 255, 0.2);
+        transform: translateY(-2px);
+        color: white;
+    }
+
+    .post-content {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        margin-bottom: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-description {
+        font-size: 1.1rem;
+        line-height: 1.7;
+        color: var(--text-color);
+        margin-bottom: 2rem;
+    }
+
+    .vote-section {
+        display: flex;
+        gap: 1rem;
+        align-items: center;
+        margin: 1rem 0;
+    }
+
+    .vote-button {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border: none;
+        border-radius: 9999px;
+        background: #f3f4f6;
+        color: #6b7280;
+        transition: all 0.2s ease;
+        cursor: pointer;
+    }
+
+    .vote-button:hover {
+        transform: translateY(-2px);
+    }
+
+    .vote-button[data-vote="up"]:hover,
+    .vote-button[data-vote="up"].active {
+        background: #dcfce7;
+        color: #10b981;
+    }
+
+    .vote-button[data-vote="down"]:hover,
+    .vote-button[data-vote="down"].active {
+        background: #fee2e2;
+        color: #ef4444;
+    }
+
+    .vote-count {
+        font-weight: 600;
+        min-width: 1.5rem;
+        text-align: center;
+    }
+
+    .upvotes {
+        color: #10b981;
+    }
+
+    .downvotes {
+        color: #ef4444;
+    }
+
+    .comments-section {
+        background: linear-gradient(135deg, #f8f9ff, #f5f6ff);
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .section-title {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+        font-size: 1.5rem;
+        margin-bottom: 2rem;
+        color: var(--text-color);
+    }
+
+    .comment-form {
+        margin-bottom: 2rem;
+        background: white;
+        padding: 1rem;
+        border-radius: 12px;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .input-wrapper {
+        display: flex;
+        gap: 1rem;
+        background: white;
+        padding: 0.75rem;
+        border-radius: 9999px;
+        border: 1px solid rgba(229, 231, 235, 0.5);
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+    }
+
+    .input-wrapper input {
+        flex: 1;
+        border: none;
+        background: transparent;
+        padding: 0.5rem;
+        font-size: 1rem;
+    }
+
+    .input-wrapper input:focus {
+        outline: none;
+    }
+
+    .btn-submit {
+        background: var(--primary-color);
+        color: white;
+        border: none;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-submit:hover {
+        transform: translateY(-2px);
+        background: var(--secondary-color);
+    }
+
+    .comment {
+        display: flex;
+        gap: 1rem;
+        padding: 1.5rem;
+        border-radius: 12px;
+        margin-bottom: 1rem;
+        background: white;
+        box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+        border: 1px solid rgba(229, 231, 235, 0.5);
+    }
+
+    .comment-avatar img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .comment-content {
+        flex: 1;
+    }
+
+    .comment-header {
+        display: flex;
+        justify-content: space-between;
+        margin-bottom: 0.5rem;
+    }
+
+    .comment-author {
+        font-weight: 600;
+        color: var(--text-color);
+    }
+
+    .comment-time {
+        font-size: 0.875rem;
+        color: #6B7280;
+    }
+
+    .comment-text {
+        line-height: 1.5;
+        color: var(--text-color);
+        margin-bottom: 0.75rem;
+    }
+
+    .comment-actions {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .btn-action {
+        background: none;
+        border: none;
+        color: #6B7280;
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-size: 0.875rem;
+        cursor: pointer;
+        transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+        color: var(--primary-color);
+    }
+
+    @media (max-width: 768px) {
+        .post-header {
+            flex-direction: column;
+            gap: 1rem;
+        }
+
+        .post-title {
+            font-size: 2rem;
+        }
+
+        .project-link {
+            align-self: flex-start;
+        }
+    }
+
+    /* New styles for threaded comments */
+    .replies-list {
+        margin-left: 3rem;
+        margin-top: 1rem;
+        padding: 0.5rem;
+        background: rgba(248, 249, 255, 0.5);
+        border-radius: 12px;
+    }
+
+    .reply {
+        display: flex;
+        gap: 1rem;
+        padding: 1rem;
+        background: rgba(255, 255, 255, 0.7);
+        border-radius: 12px;
+        margin-bottom: 0.5rem;
+        border: 1px solid rgba(229, 231, 235, 0.3);
+    }
+
+    .avatar-circle.small {
+        width: 32px;
+        height: 32px;
+        font-size: 0.875rem;
+    }
+
+    .reply-form {
+        margin: 1rem 0;
+        padding-left: 3rem;
+    }
+
+    .like-btn {
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        transition: all 0.2s ease;
+    }
+
+    .like-btn:hover {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: #EF4444;
+    }
+
+    .like-btn.active {
+        color: #EF4444;
+    }
+
+    .like-btn.active i {
+        color: #EF4444;
+    }
+
+    .like-count {
+        margin-left: 0.5rem;
+        font-weight: 600;
+    }
+
+    /* Animation for likes */
+    @keyframes likeAnimation {
+        0% { transform: scale(1); }
+        50% { transform: scale(1.2); }
+        100% { transform: scale(1); }
+    }
+
+    .like-btn i {
+        transition: transform 0.2s ease;
+    }
+
+    .like-btn.animating i {
+        animation: likeAnimation 0.3s ease;
+    }
+
+    .avatar-image {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+
+    .avatar-image.small {
+        width: 32px;
+        height: 32px;
+    }
+</style>
+
+<script>
+    // Format timestamp helper function
+    function formatTimestamp(timestamp) {
+        try {
+            const date = new Date(timestamp);
+            const now = new Date();
+            const diffInMinutes = Math.floor((now - date) / (1000 * 60));
+            const diffInHours = Math.floor(diffInMinutes / 60);
+            const diffInDays = Math.floor(diffInHours / 24);
+
+            // If less than a minute ago
+            if (diffInMinutes < 1) {
+                return 'Just now';
+            }
+            
+            // If less than an hour ago
+            if (diffInMinutes < 60) {
+                return `${diffInMinutes} ${diffInMinutes === 1 ? 'minute' : 'minutes'} ago`;
+            }
+            
+            // If less than 24 hours ago
+            if (diffInHours < 24) {
+                return `${diffInHours} ${diffInHours === 1 ? 'hour' : 'hours'} ago`;
+            }
+            
+            // If less than 7 days ago
+            if (diffInDays < 7) {
+                return `${diffInDays} ${diffInDays === 1 ? 'day' : 'days'} ago`;
+            }
+            
+            // If in the current year
+            if (date.getFullYear() === now.getFullYear()) {
+                return date.toLocaleDateString('en-US', {
+                    month: 'short',
+                    day: 'numeric'
+                });
+            }
+            
+            // If in a different year
+            return date.toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+                day: 'numeric'
+            });
+        } catch (e) {
+            console.error('Error formatting timestamp:', e);
+            return 'Invalid date';
+        }
+    }
+
+    // Function to update all timestamps on the page
+    function updateAllTimestamps() {
+        document.querySelectorAll('[data-timestamp]').forEach(element => {
+            const timestamp = element.dataset.timestamp;
+            element.textContent = formatTimestamp(timestamp);
+        });
+    }
+
+    // Update timestamps when page loads
+    document.addEventListener('DOMContentLoaded', function() {
+        updateAllTimestamps();
+        
+        // Update timestamps every minute
+        setInterval(updateAllTimestamps, 60000);
+    });
+
+    // Update timestamps for new content
+    function updateNewContentTimestamps() {
+        updateAllTimestamps();
+    }
+
+    document.addEventListener('DOMContentLoaded', function() {
+        // Get post ID from the server-side
+        const postId = "{{ post.id }}"; // Fix: Use string interpolation for template variable
+
+        const upvoteBtn = document.getElementById('upvote-btn');
+        const downvoteBtn = document.getElementById('downvote-btn');
+
+        // Get initial vote status
+        fetch(`/get_vote_status/${postId}`)
+            .then(response => response.json())
+            .then(data => {
+                updateVoteButtons(data.vote);
+            });
+
+        function updateVoteButtons(voteStatus) {
+            upvoteBtn.classList.remove('active');
+            downvoteBtn.classList.remove('active');
+            
+            if (voteStatus === 'upvote') {
+                upvoteBtn.classList.add('active');
+            } else if (voteStatus === 'downvote') {
+                downvoteBtn.classList.add('active');
+            }
+        }
+
+        function updateVoteCounts(data) {
+            document.querySelector('.upvotes').textContent = data.upvotes;
+            document.querySelector('.downvotes').textContent = data.downvotes;
+            updateVoteButtons(data.userVote);
+        }
+
+        function handleVote(type) {
+            fetch(`/${type}/${postId}`, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                }
+            })
+            .then(response => {
+                if (response.status === 401) {
+                    window.location.href = '/login';
+                    return;
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data && !data.error) {
+                    updateVoteCounts(data);
+                }
+            });
+        }
+
+        // Add event listeners for vote buttons
+        upvoteBtn.addEventListener('click', () => handleVote('upvote'));
+        downvoteBtn.addEventListener('click', () => handleVote('downvote'));
+
+        // Add reply functionality to all existing comments
+        document.querySelectorAll('.comment').forEach(addCommentEventListeners);
+    });
+
+    // Add this function to handle reply form submission
+    function addCommentEventListeners(commentElement) {
+        const replyBtn = commentElement.querySelector('.reply-btn');
+        const replyForm = commentElement.querySelector('.reply-form');
+        const postId = "{{ post.id }}"; // Fix: Add postId in proper scope
+        
+        if (replyBtn) {
+            replyBtn.addEventListener('click', () => {
+                replyForm.style.display = replyForm.style.display === 'none' ? 'block' : 'none';
+            });
+        }
+
+        if (replyForm) {
+            replyForm.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const input = this.querySelector('.reply-input');
+                const text = input.value.trim();
+                const commentId = commentElement.dataset.commentId;
+                
+                if (!text) return;
+
+                fetch(`/comment/${postId}/${commentId}/reply`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json'
+                    },
+                    body: JSON.stringify({ reply: text })
+                })
+                .then(response => {
+                    if (response.status === 401) {
+                        window.location.href = '/login';
+                        return;
+                    }
+                    return response.json();
+                })
+                .then(data => {
+                    if (data && !data.error) {
+                        const repliesList = commentElement.querySelector('.replies-list');
+                        const replyHTML = `
+                            <div class="reply" data-reply-id="${data.id}">
+                                <div class="reply-avatar">
+                                    <div class="avatar-circle small">${data.username[0].toUpperCase()}</div>
+                                </div>
+                                <div class="reply-content">
+                                    <div class="reply-header">
+                                        <span class="reply-author">${data.username}</span>
+                                        <span class="reply-time">${data.formatted_timestamp}</span>
+                                    </div>
+                                    <p class="reply-text">${data.text}</p>
+                                    <button class="btn-action like-btn"
+                                            data-post-id="${postId}"
+                                            data-comment-id="${commentId}"
+                                            data-reply-id="${data.id}"
+                                            data-type="reply">
+                                        <i class="bi bi-heart"></i>
+                                        <span class="like-count">0</span>
+                                    </button>
+                                </div>
+                            </div>
+                        `;
+                        repliesList.insertAdjacentHTML('beforeend', replyHTML);
+                        input.value = '';
+                        replyForm.style.display = 'none';
+                        
+                        // Add event listeners to the new reply's like button
+                        const newReply = repliesList.lastElementChild;
+                        const likeBtn = newReply.querySelector('.like-btn');
+                        if (likeBtn) {
+                            likeBtn.addEventListener('click', function() {
+                                handleLike(this);
+                            });
+                        }
+                    }
+                })
+                .catch(error => console.error('Error:', error));
+            });
+        }
+    }
+</script>
+
+{% endblock %}
+{% block footer %}{% endblock %}

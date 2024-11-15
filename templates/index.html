@@ -1,0 +1,275 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="home-container">
+    <!-- Welcome Section -->
+    <div class="welcome-section">
+        {% if username %}
+            <h1 class="welcome-title">Welcome back, <span class="highlight-text">{{ username }}</span>!</h1>
+        {% else %}
+            <h1 class="welcome-title">Welcome to <span class="highlight-text">Critique Spark</span></h1>
+        {% endif %}
+        <p class="welcome-subtitle">Discover and share amazing content with the community</p>
+    </div>
+
+    <!-- Posts Section -->
+    <div class="posts-container">
+        {% for post in posts %}
+        <div class="post-card">
+            <div class="post-header">
+                <div class="post-author">
+                    {% if user_profiles.get(post.author) and user_profiles.get(post.author).profile_pic %}
+                        <img src="{{ url_for('static', filename='profile_pics/' + user_profiles.get(post.author).profile_pic) }}" 
+                             alt="{{ post.author }}'s avatar"
+                             class="author-avatar-img">
+                    {% else %}
+                        <div class="author-avatar">{{ post.author[:1].upper() }}</div>
+                    {% endif %}
+                    <span class="author-name">{{ post.author }}</span>
+                </div>
+                <div class="post-votes">
+                    <span class="vote-count upvotes">
+                        <i class="bi bi-arrow-up-circle-fill"></i>
+                        {{ post.upvotes }}
+                    </span>
+                    <span class="vote-count downvotes">
+                        <i class="bi bi-arrow-down-circle-fill"></i>
+                        {{ post.downvotes }}
+                    </span>
+                </div>
+            </div>
+            <a href="{{ url_for('post', post_id=post.id) }}" class="post-content">
+                <h3 class="post-title">{{ post.title }}</h3>
+                <p class="post-description">{{ post.description }}</p>
+            </a>
+            <div class="post-footer">
+                <div class="post-actions">
+                    <button class="btn btn-action">
+                        <i class="bi bi-chat-dots"></i>
+                        Comments
+                    </button>
+                    <button class="btn btn-action">
+                        <i class="bi bi-share"></i>
+                        Share
+                    </button>
+                </div>
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</div>
+
+<style>
+    .home-container {
+        margin: -2rem;
+        padding: 2rem;
+        background-image: 
+            linear-gradient(45deg, var(--card-color-2) 25%, transparent 25%),
+            linear-gradient(-45deg, var(--card-color-2) 25%, transparent 25%),
+            linear-gradient(45deg, transparent 75%, var(--card-color-2) 75%),
+            linear-gradient(-45deg, transparent 75%, var(--card-color-2) 75%);
+        background-size: 20px 20px;
+        background-position: 0 0, 0 10px, 10px -10px, -10px 0px;
+    }
+
+    .welcome-section {
+        text-align: center;
+        margin-bottom: 3rem;
+        padding: 2.5rem;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 16px;
+        color: white;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .welcome-section::after {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background: linear-gradient(45deg, rgba(255, 255, 255, 0.1) 25%, transparent 25%);
+        background-size: 3px 3px;
+        pointer-events: none;
+    }
+
+    .welcome-title {
+        font-size: 2.5rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .highlight-text {
+        background: linear-gradient(45deg, #fff, rgba(255, 255, 255, 0.8));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+    }
+
+    .welcome-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+
+    .posts-container {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 1.5rem;
+        padding: 1rem 0;
+    }
+
+    .post-card {
+        background: var(--card-color-1);
+        border-radius: 16px;
+        padding: 1.5rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+        position: relative;
+        overflow: hidden;
+    }
+
+    .post-card:nth-child(even) {
+        background: var(--card-color-2);
+    }
+
+    .post-card::before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: 0;
+        right: 0;
+        height: 4px;
+        background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+        opacity: 0;
+        transition: opacity 0.2s ease;
+    }
+
+    .post-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    }
+
+    .post-card:hover::before {
+        opacity: 1;
+    }
+
+    .post-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+    }
+
+    .post-author {
+        display: flex;
+        align-items: center;
+        gap: 0.75rem;
+    }
+
+    .author-avatar {
+        width: 40px;
+        height: 40px;
+        background: var(--primary-color);
+        color: white;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-weight: 600;
+    }
+
+    .author-name {
+        font-weight: 500;
+        color: var(--text-color);
+    }
+
+    .post-votes {
+        display: flex;
+        gap: 1rem;
+    }
+
+    .vote-count {
+        display: flex;
+        align-items: center;
+        gap: 0.25rem;
+        font-weight: 500;
+    }
+
+    .upvotes {
+        color: #10B981;
+    }
+
+    .downvotes {
+        color: #EF4444;
+    }
+
+    .post-content {
+        display: block;
+        text-decoration: none;
+        color: inherit;
+        padding: 1rem 0;
+    }
+
+    .post-title {
+        font-size: 1.25rem;
+        font-weight: 600;
+        color: var(--text-color);
+        margin-bottom: 0.5rem;
+    }
+
+    .post-description {
+        color: #6B7280;
+        line-height: 1.5;
+    }
+
+    .post-footer {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid rgba(229, 231, 235, 0.5);
+    }
+
+    .post-actions {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .btn-action {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.5rem 1rem;
+        border-radius: 9999px;
+        background: var(--card-color-1);
+        color: var(--text-color);
+        border: 1px solid rgba(0, 0, 0, 0.1);
+        transition: all 0.2s ease;
+    }
+
+    .btn-action:hover {
+        background: var(--hover-color);
+        color: var(--primary-color);
+        transform: translateY(-1px);
+    }
+
+    @media (max-width: 768px) {
+        .welcome-title {
+            font-size: 2rem;
+        }
+
+        .posts-container {
+            grid-template-columns: 1fr;
+        }
+    }
+
+    .author-avatar-img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: cover;
+    }
+</style>
+{% endblock %}
+

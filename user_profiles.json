@@ -1,0 +1,9 @@
+{
+    "user@example.com": {
+        "username": "user@example.com",
+        "bio": "",
+        "email": "user@example.com",
+        "github": "",
+        "profile_pic": null
+    }
+} 

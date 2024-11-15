@@ -1,0 +1,263 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="create-post-container">
+    <!-- Header Section -->
+    <div class="page-header">
+        <h1 class="gradient-text">Create a New Post</h1>
+        <p class="header-subtitle">Share your project with the community</p>
+    </div>
+
+    <!-- Post Creation Form -->
+    <div class="form-container">
+        <form action="{{ url_for('create_post') }}" method="POST" class="create-post-form">
+            <div class="form-section">
+                <div class="form-group">
+                    <label for="title">
+                        <i class="bi bi-type-h1"></i>
+                        Post Title
+                    </label>
+                    <input type="text" 
+                           name="title" 
+                           id="title" 
+                           placeholder="Give your post a descriptive title"
+                           required
+                           class="form-control">
+                </div>
+
+                <div class="form-group">
+                    <label for="description">
+                        <i class="bi bi-text-paragraph"></i>
+                        Description
+                    </label>
+                    <textarea name="description" 
+                              id="description" 
+                              rows="6" 
+                              placeholder="Describe your project in detail..."
+                              required
+                              class="form-control"></textarea>
+                    <div class="character-count">
+                        <span id="charCount">0</span>/500 characters
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="link">
+                        <i class="bi bi-link-45deg"></i>
+                        Project Link
+                    </label>
+                    <input type="url" 
+                           name="link" 
+                           id="link" 
+                           placeholder="https://github.com/yourusername/project"
+                           required
+                           class="form-control">
+                </div>
+            </div>
+
+            <div class="form-actions">
+                <button type="button" class="btn btn-secondary" onclick="history.back()">
+                    <i class="bi bi-arrow-left"></i>
+                    Cancel
+                </button>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-send-fill"></i>
+                    Publish Post
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+
+<style>
+    .create-post-container {
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 2rem;
+    }
+
+    .page-header {
+        text-align: center;
+        margin-bottom: 2rem;
+    }
+
+    .gradient-text {
+        font-size: 2.5rem;
+        font-weight: 700;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        margin-bottom: 0.5rem;
+    }
+
+    .header-subtitle {
+        color: #6B7280;
+        font-size: 1.1rem;
+    }
+
+    .form-container {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    }
+
+    .form-section {
+        margin-bottom: 2rem;
+    }
+
+    .form-group {
+        margin-bottom: 1.5rem;
+    }
+
+    .form-group label {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        margin-bottom: 0.5rem;
+        color: #374151;
+        font-weight: 500;
+    }
+
+    .form-group label i {
+        color: var(--primary-color);
+    }
+
+    .form-control {
+        width: 100%;
+        padding: 0.75rem 1rem;
+        border: 1px solid #E5E7EB;
+        border-radius: 0.5rem;
+        background: #F9FAFB;
+        transition: all 0.2s;
+        font-size: 1rem;
+    }
+
+    .form-control:focus {
+        outline: none;
+        border-color: var(--primary-color);
+        box-shadow: 0 0 0 3px rgba(79, 70, 229, 0.1);
+    }
+
+    textarea.form-control {
+        resize: vertical;
+        min-height: 120px;
+    }
+
+    .character-count {
+        margin-top: 0.5rem;
+        text-align: right;
+        font-size: 0.875rem;
+        color: #6B7280;
+    }
+
+    .form-actions {
+        display: flex;
+        justify-content: flex-end;
+        gap: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid #E5E7EB;
+    }
+
+    .btn {
+        display: flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border-radius: 0.5rem;
+        font-weight: 500;
+        transition: all 0.2s;
+        border: none;
+        cursor: pointer;
+    }
+
+    .btn-primary {
+        background: var(--primary-color);
+        color: white;
+    }
+
+    .btn-secondary {
+        background: #F3F4F6;
+        color: #374151;
+    }
+
+    .btn:hover {
+        transform: translateY(-1px);
+    }
+
+    .btn-primary:hover {
+        background: var(--secondary-color);
+    }
+
+    .btn-secondary:hover {
+        background: #E5E7EB;
+    }
+
+    @media (max-width: 768px) {
+        .create-post-container {
+            padding: 1rem;
+        }
+
+        .gradient-text {
+            font-size: 2rem;
+        }
+
+        .form-actions {
+            flex-direction: column-reverse;
+        }
+
+        .btn {
+            width: 100%;
+            justify-content: center;
+        }
+    }
+</style>
+
+<script>
+    // Character count for description
+    const descriptionInput = document.getElementById('description');
+    const charCount = document.getElementById('charCount');
+    const maxLength = 500;
+
+    descriptionInput.addEventListener('input', function() {
+        const currentLength = this.value.length;
+        charCount.textContent = currentLength;
+        
+        if (currentLength > maxLength) {
+            charCount.style.color = '#EF4444';
+        } else {
+            charCount.style.color = '#6B7280';
+        }
+    });
+
+    // Form validation
+    document.querySelector('.create-post-form').addEventListener('submit', function(e) {
+        const title = document.getElementById('title').value.trim();
+        const description = document.getElementById('description').value.trim();
+        const link = document.getElementById('link').value.trim();
+
+        if (!title || !description || !link) {
+            e.preventDefault();
+            alert('Please fill in all fields');
+            return;
+        }
+
+        if (description.length > maxLength) {
+            e.preventDefault();
+            alert(`Description must be ${maxLength} characters or less`);
+            return;
+        }
+
+        try {
+            new URL(link);
+        } catch (e) {
+            e.preventDefault();
+            alert('Please enter a valid URL');
+            return;
+        }
+    });
+</script>
+
+{% endblock %}
+{% block footer %}{% endblock %}

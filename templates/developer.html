@@ -1,0 +1,189 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="developer-container">
+    <!-- Hero Section -->
+    <div class="hero-section">
+        <div class="hero-content">
+            <h1 class="gradient-text">About The Developer</h1>
+            <p class="hero-subtitle">Building Critique Spark with passion and purpose</p>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="content-section">
+        <!-- Developer Info Card -->
+        <div class="info-card developer-card">
+            <div class="card-icon">
+                <i class="bi bi-person-workspace"></i>
+            </div>
+            <div class="card-content">
+                <h3>Meet the Developer</h3>
+                <p>Hi, I'm P. Shivani! I'm passionate about creating meaningful web applications that bring value to users.</p>
+            </div>
+        </div>
+
+        <!-- Project Info Card -->
+        <div class="info-card project-card">
+            <div class="card-icon">
+                <i class="bi bi-lightbulb"></i>
+            </div>
+            <div class="card-content">
+                <h3>Project Purpose</h3>
+                <p>Critique Spark was developed as part of the Smart Engineering Project, aiming to create a platform for meaningful discussions and feedback.</p>
+                <div class="project-links">
+                    <a href="https://replit.com/@KPriyanshu/RoughStainedDesktopenvironment" target="_blank" class="btn btn-outline">
+                        <i class="bi bi-code-square"></i> View API Repository
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Card -->
+        <div class="info-card contact-card">
+            <div class="card-icon">
+                <i class="bi bi-envelope-paper"></i>
+            </div>
+            <div class="card-content">
+                <h3>Get in Touch</h3>
+                <p>Have questions or suggestions? I'd love to hear from you!</p>
+                <a href="mailto:01chocolatygirl50@gmail.com" class="contact-link">
+                    <i class="bi bi-envelope"></i> 01chocolatygirl50@gmail.com
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<style>
+    .developer-container {
+        margin: -2rem;
+        overflow: hidden;
+    }
+
+    .hero-section {
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        padding: 4rem 2rem;
+        text-align: center;
+        color: white;
+        margin-bottom: 3rem;
+    }
+
+    .gradient-text {
+        background: linear-gradient(45deg, #fff, #f0f0f0);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+        font-size: 3rem;
+        font-weight: 700;
+        margin-bottom: 1rem;
+    }
+
+    .hero-subtitle {
+        font-size: 1.2rem;
+        opacity: 0.9;
+    }
+
+    .content-section {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 2rem;
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+        gap: 2rem;
+        margin-bottom: 3rem;
+    }
+
+    .info-card {
+        background: white;
+        border-radius: 16px;
+        padding: 2rem;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .info-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+    }
+
+    .card-icon {
+        width: 60px;
+        height: 60px;
+        background: linear-gradient(135deg, var(--primary-color), var(--secondary-color));
+        border-radius: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        margin-bottom: 1.5rem;
+    }
+
+    .card-icon i {
+        font-size: 1.8rem;
+        color: white;
+    }
+
+    .card-content h3 {
+        font-size: 1.5rem;
+        font-weight: 600;
+        margin-bottom: 1rem;
+        color: var(--text-color);
+    }
+
+    .card-content p {
+        color: #6B7280;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .project-links {
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+    }
+
+    .btn-outline {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        padding: 0.75rem 1.5rem;
+        border: 2px solid var(--primary-color);
+        color: var(--primary-color);
+        border-radius: 9999px;
+        font-weight: 500;
+        transition: all 0.2s ease;
+    }
+
+    .btn-outline:hover {
+        background: var(--primary-color);
+        color: white;
+        transform: translateY(-2px);
+    }
+
+    .contact-link {
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+        color: var(--primary-color);
+        text-decoration: none;
+        font-weight: 500;
+        transition: color 0.2s ease;
+    }
+
+    .contact-link:hover {
+        color: var(--secondary-color);
+    }
+
+    @media (max-width: 768px) {
+        .gradient-text {
+            font-size: 2.5rem;
+        }
+
+        .content-section {
+            grid-template-columns: 1fr;
+            padding: 0 1rem;
+        }
+    }
+</style>
+{% endblock %}
+{% block footer %}{% endblock %}
