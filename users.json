@@ -6,5 +6,9 @@
     "kpg@duck.com": {
         "username": "sony",
         "password": "12345678"
+    },
+    "kpg1@duck.com": {
+        "username": "ssss",
+        "password": "12345"
     }
 }

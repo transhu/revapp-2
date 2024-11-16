@@ -1,4 +1,5 @@
 from flask import Flask, request, redirect, url_for, render_template, session, flash, jsonify
+from flask_socketio import SocketIO, emit, join_room, leave_room
 
 import json
 
@@ -1377,8 +1378,6 @@ def chat():
 
     existing_chats = []
 
-    all_users = []
-
     user_profiles = {}
 
 
@@ -1443,17 +1442,17 @@ def chat():
 
 
 
-@app.route('/chat/messages/<user>', methods=['GET'])
+@app.route('/chat/messages/<user>')
 
 def get_messages(user):
 
+    if 'user' not in session:
+
+        return jsonify({'error': 'Not logged in'}), 401
+
+    
+
     current_user = session.get('user')
-
-    if not current_user:
-
-        return jsonify({'error': 'User not logged in'}), 403
-
-
 
     chat_file = get_chat_file(current_user, user)
 
@@ -1466,50 +1465,12 @@ def get_messages(user):
             with open(chat_file, 'r') as file:
 
                 chat_data = json.load(file)
-                
-
-                # Get user profiles for both participants
-
-                user_profiles = {
-
-                    current_user: get_user_profile(current_user),
-
-                    user: get_user_profile(user)
-
-                }
-                
-
-                # Mark messages as read
-
-                if chat_data.get('messages'):
-
-                    updated = False
-
-                    for msg in chat_data['messages']:
-
-                        if msg['sender'] == user and not msg.get('read'):
-
-                            msg['read'] = True
-
-                            updated = True
-
-                    
-
-                    if updated:
-
-                        with open(chat_file, 'w') as f:
-
-                            json.dump(chat_data, f, indent=4)
-
-                
 
                 return jsonify({
 
                     'messages': chat_data.get('messages', []),
 
-                    'participants': chat_data.get('participants', []),
-
-                    'user_profiles': user_profiles
+                    'participants': chat_data.get('participants', [])
 
                 })
 
@@ -1517,25 +1478,13 @@ def get_messages(user):
 
         app.logger.error(f"Error reading chat: {str(e)}")
 
-        return jsonify({'error': 'Failed to load messages'}), 500
-
-
-
-    # If no chat file exists, return empty data with user profiles
+    
 
     return jsonify({
 
-        'messages': [], 
+        'messages': [],
 
-        'participants': [current_user, user],
-
-        'user_profiles': {
-
-            current_user: get_user_profile(current_user),
-
-            user: get_user_profile(user)
-
-        }
+        'participants': [current_user, user]
 
     })
 
@@ -1545,28 +1494,25 @@ def get_messages(user):
 
 def send_message(user):
 
+    if 'user' not in session:
+
+        return jsonify({'error': 'Not logged in'}), 401
+
+    
+
     current_user = session.get('user')
 
-    if not current_user:
+    message_text = request.json.get('message', '').strip()
 
-        return jsonify({'error': 'User not logged in'}), 403
-
-
-
-    data = request.get_json()
-
-    message_text = data.get('message', '').strip()
     
 
     if not message_text:
 
         return jsonify({'error': 'Message cannot be empty'}), 400
 
-
+    
 
     chat_file = get_chat_file(current_user, user)
-
-    print(f"Saving message to: {chat_file}")  # Debug print
 
     
 
@@ -1588,13 +1534,27 @@ def send_message(user):
 
             }
 
+        
 
+        new_message = {
 
-        new_message = create_message(current_user, message_text)
+            'id': str(uuid.uuid4()),
+
+            'sender': current_user,
+
+            'text': message_text,
+
+            'timestamp': datetime.now(timezone.utc).isoformat(),
+
+            'read': False
+
+        }
+
+        
 
         chat_data['messages'].append(new_message)
 
-
+        
 
         with open(chat_file, 'w') as file:
 
@@ -1602,48 +1562,21 @@ def send_message(user):
 
         
 
-        print(f"Successfully saved message to {chat_file}")  # Debug print
-
         return jsonify(new_message)
 
     except Exception as e:
 
-        print(f"Error saving message: {str(e)}")  # Debug print
+        app.logger.error(f"Error sending message: {str(e)}")
 
         return jsonify({'error': 'Failed to send message'}), 500
 
 
 
-def create_message(sender: str, text: str, timestamp: Optional[datetime] = None) -> Dict:
-
-    if timestamp is None:
-
-        timestamp = datetime.now(timezone.utc)
-    
-
-    return {
-
-        "id": str(uuid.uuid4()),
-
-        "sender": sender,
-
-        "text": text,
-
-        "timestamp": timestamp.isoformat(),
-
-        "read": False
-
-    }
-
-
-
-def get_chat_file(user1: str, user2: str) -> str:
+def get_chat_file(user1, user2):
 
     users = sorted([user1, user2])
 
-    chat_id = f"{users[0]}_{users[1]}"
-
-    return os.path.join(CHAT_DIR, f"{chat_id}.json")
+    return os.path.join(CHAT_DIR, f"{users[0]}_{users[1]}.json")
 
 
 
@@ -1651,9 +1584,7 @@ def get_chat_file(user1: str, user2: str) -> str:
 
 def pin_chat(user):
 
-    current_user = session.get('user')
-
-    if not current_user:
+    if 'user' not in session:
 
         return jsonify({'error': 'User not logged in'}), 403
 
@@ -1661,7 +1592,7 @@ def pin_chat(user):
 
     # Load or create pinned chats file for the current user
 
-    pinned_file = os.path.join(CHAT_DIR, f"{current_user}_pinned.json")
+    pinned_file = os.path.join(CHAT_DIR, f"{session['user']}_pinned.json")
 
     if os.path.exists(pinned_file):
 
@@ -1707,9 +1638,7 @@ def pin_chat(user):
 
 def search_messages(user):
 
-    current_user = session.get('user')
-
-    if not current_user:
+    if 'user' not in session:
 
         return jsonify({'error': 'User not logged in'}), 403
 
@@ -1717,7 +1646,7 @@ def search_messages(user):
 
     query = request.json.get('query', '').lower()
 
-    chat_file = get_chat_file(current_user, user)
+    chat_file = get_chat_file(session['user'], user)
 
     
 

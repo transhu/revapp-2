@@ -1,0 +1,15 @@
+{
+    "participants": [
+        "ssss",
+        "user1"
+    ],
+    "messages": [
+        {
+            "id": "b40e8a75-814c-4441-a47d-3019c02221d5",
+            "sender": "ssss",
+            "text": "hii",
+            "timestamp": "2024-11-16T04:38:31.443076+00:00",
+            "read": false
+        }
+    ]
+}

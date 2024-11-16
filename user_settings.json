@@ -8,5 +8,15 @@
         "language": "en",
         "timezone": "UTC",
         "theme": "light"
+    },
+    "ssss": {
+        "fontSize": "small",
+        "emailNotifications": true,
+        "commentNotifications": false,
+        "profileVisibility": "public",
+        "activityStatus": true,
+        "language": "en",
+        "timezone": "Singapore",
+        "theme": "light"
     }
 }

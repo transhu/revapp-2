@@ -1,0 +1,50 @@
+{
+    "participants": [
+        "ssss",
+        "sony"
+    ],
+    "messages": [
+        {
+            "id": "a13a1729-efdd-44d0-9aaa-61f6c30bfd56",
+            "sender": "ssss",
+            "text": "hey",
+            "timestamp": "2024-11-16T04:38:41.692707+00:00",
+            "read": true
+        },
+        {
+            "id": "31f16eff-ce89-4008-9103-42d8a2e72f36",
+            "sender": "sony",
+            "text": "hai ssss",
+            "timestamp": "2024-11-16T04:46:39.874812+00:00",
+            "read": true
+        },
+        {
+            "id": "796b5e9f-c3eb-41e6-b8a0-cc2719d4a3f5",
+            "sender": "sony",
+            "text": "yo",
+            "timestamp": "2024-11-16T04:57:24.147892+00:00",
+            "read": false
+        },
+        {
+            "id": "671a2bda-c3af-48af-b8a6-631464b329d1",
+            "sender": "ssss",
+            "text": "haiiii",
+            "timestamp": "2024-11-16T04:57:38.398758+00:00",
+            "read": false
+        },
+        {
+            "id": "d6e3b9ae-edf4-426b-a4e8-2bc230d16ecb",
+            "sender": "sony",
+            "text": "whatsapp",
+            "timestamp": "2024-11-16T04:59:33.127527+00:00",
+            "read": false
+        },
+        {
+            "id": "a7c4c354-5f0a-4052-b85b-b06436347b6f",
+            "sender": "ssss",
+            "text": "helllo drlg",
+            "timestamp": "2024-11-16T04:59:49.971849+00:00",
+            "read": false
+        }
+    ]
+}
